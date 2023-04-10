@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from imdb import Cinemagoer
 
 app = Flask(__name__)
 
@@ -18,6 +19,7 @@ with open("dist_matrix.npy", "rb") as file:
     dist_matrix = np.load(file)
 reverse_mapping = dict([(value, key) for key, value in mapping.items()])
 actor_info_df = pd.read_csv('actor_info.csv')
+ia = Cinemagoer()
 
 def get_path(Pr, i, j):
     """Gets the path between 2 IDs"""
@@ -38,6 +40,14 @@ def get_distance():
     names_out = list(map(lambda x: (actor_info_df[actor_info_df['nconst'] == x])['primaryName'].values[0], p))
     return jsonify(names_out)
 
+
+
+@app.route('/person', methods=['GET'])
+def get_person():
+    query = request.args.get('query')
+    t = ia.search_person(query)
+    xy = list(map(lambda x: {"id": "nm"+x.personID, "name": x['name']}, t))
+    return jsonify(xy)
 
 if __name__ == '__main__':
     app.run()
