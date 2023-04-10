@@ -36,7 +36,10 @@ def get_path(Pr, i, j):
 def get_distance():
     root = request.args.get('root')
     target = request.args.get('target')
-    p = get_path(predecessors, root, target)
+    try:
+        p = get_path(predecessors, root, target)
+    except:
+        return "ID not found", 404
     names_out = list(map(lambda x: (actor_info_df[actor_info_df['nconst'] == x])['primaryName'].values[0], p))
     return jsonify(names_out)
 
