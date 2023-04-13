@@ -92,7 +92,7 @@ export default function Album() {
               variant="contained"
               onClick={async () => {
                 setLoading(true);
-                fetch(`http://localhost:5000/person?query=${name}`).then(async (response) =>{
+                fetch(`https://cwl207api.devksingh.com/person?query=${name}`).then(async (response) =>{
                   const resp = await response.json();
                   setSearchResults([]);
                   setSearchResults(resp);
@@ -105,7 +105,7 @@ export default function Album() {
             </Stack>
             <List sx={{ width: '100%'}}>
                 {searchResults.map((value) => (
-                  <ListItem key={value.id} onClick={(e) => {fetch(`http://localhost:5000/distance?root=nm0000821&target=${value.id}`).then(async (response) =>{
+                  <ListItem key={value.id} onClick={(e) => {fetch(`https://cwl207api.devksingh.com/distance?root=nm0000821&target=${value.id}`).then(async (response) =>{
                     const resp = await response.json();
                     setPath([]);
                     setPath(resp);
