@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
 from imdb import Cinemagoer
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 mapping = None
 reverse_mapping = None
