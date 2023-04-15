@@ -21,6 +21,7 @@ with open("dist_matrix.npy", "rb") as file:
     dist_matrix = np.load(file)
 reverse_mapping = dict([(value, key) for key, value in mapping.items()])
 actor_info_df = pd.read_csv('actor_info.csv')
+actor_list = dict.fromkeys(list(actor_info_df['nconst']), 1)
 ia = Cinemagoer()
 
 def get_path(Pr, i, j):
@@ -47,11 +48,19 @@ def get_distance():
 
 
 
+def filter(var):
+    try:
+        actor_list[var['id']]
+        return True
+    except:
+        return False
+    
 @app.route('/person', methods=['GET'])
 def get_person():
     query = request.args.get('query')
     t = ia.search_person(query)
     xy = list(map(lambda x: {"id": "nm"+x.personID, "name": x['name']}, t))
+    xy = list(filter(filter, xy))
     return jsonify(xy)
 
 if __name__ == '__main__':
