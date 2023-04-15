@@ -48,7 +48,7 @@ def get_distance():
 
 
 
-def filter(var):
+def filterf(var):
     try:
         actor_list[var['id']]
         return True
@@ -60,7 +60,7 @@ def get_person():
     query = request.args.get('query')
     t = ia.search_person(query)
     xy = list(map(lambda x: {"id": "nm"+x.personID, "name": x['name']}, t))
-    xy = list(filter(filter, xy))
+    xy = list(filter(filterf, xy))
     return jsonify(xy)
 
 if __name__ == '__main__':
